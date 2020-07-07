@@ -14,7 +14,7 @@
 
 - name: Copy db templates
   template:
-    src: db.ldif
+    src: templates/db.ldif
     dest: /tmp
 
 - name: Load ddbb template into ldap
