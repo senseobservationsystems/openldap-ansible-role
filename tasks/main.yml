@@ -73,6 +73,8 @@
       userpassword: "{{item.value.userpassword}}"
       #employeeNumber: "{{item.value.employeeNumber}}"
   with_dict: "{{ldap_users}}"
+  tags:
+    - load_users
 
 - name: Load groups
   ldap_entry:
@@ -86,6 +88,8 @@
     attributes:
       uniqueMember: "uid=dummy,ou=people,{{ldap_basedn}}"
   with_items: "{{ldap_groups}}"
+  tags:
+    - load_users
 
 - name: Add users to groups
   ldap_attr:
@@ -99,6 +103,8 @@
   with_subelements:
     - "{{ldap_groups}}"
     - members
+  tags:
+    - load_users
 
 - name: Remove dummy entry
   ldap_attr:
@@ -110,6 +116,8 @@
     values: "uid=dummy,ou=people,{{ldap_basedn}}"
     state: absent
   with_items: "{{ldap_groups}}"
+  tags:
+    - load_users
 
 - name: Restart ldap service
   service:
